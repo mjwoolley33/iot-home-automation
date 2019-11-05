@@ -53,7 +53,7 @@ The lambda function needs the following IAM permissions to run:
 }
 ```
 4.  Click Test
-5.  Review logger output, a successful run will contain the following from the IFTTT applet (along with additional verbose messages):
+5.  Review logger output, a successful run will look like this:
 ```
 Response:
 "Congratulations! You've fired the SERIALNUMBER123-SINGLE event"
