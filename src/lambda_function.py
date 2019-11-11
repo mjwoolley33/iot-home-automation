@@ -11,7 +11,6 @@ SINGLE = Run house fan for 60 minutes
 Double = Force nest temperature to 72
 Long = Text message about empty garage fridge
 """
-from __future__ import print_function
 
 import boto3
 import json
