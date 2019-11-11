@@ -51,14 +51,14 @@ The lambda function needs the following IAM permissions to run:
 3. Add a new test event "Single" with the following JSON, repeat for "Double" and "Long":
 ```
 {
-  "serialNumber": "SERIALNUMBER123",
+  "serialNumber": "{YourSerialNumber}",
   "batteryVoltage": "xxmV",
   "clickType": "SINGLE"
 }
 ```
 4.  Click Test
-5.  Review logger output, a successful run will look like this:
+5.  Review logger output, a successful run will look something like this:
 ```
 Response:
-"Congratulations! You've fired the SERIALNUMBER123-SINGLE event"
+"Congratulations! You've fired the {YourSerialNumber}-SINGLE event"
 ```
