@@ -6,6 +6,10 @@ When the button is pressed the AWS IOT service integrates with a Lambda function
 
 IFTTT runs using applets triggered by web requests, you can find a good tutorial here:  https://help.ifttt.com/hc/en-us/articles/360021401373-Creating-your-own-Applet
 
+Here's a very basic diagram of how the button, AWS Lambda and IFTTT/SNS are pieced together:
+
+![](https://i.imgur.com/3UqyKZh.png)
+
 ## Requirements
 * 1 AWS IOT Button:  https://www.amazon.com/All-New-AWS-IoT-Enterprise-Button/dp/B075FPHHGG/ref=sr_1_1?keywords=iot+button&qid=1572918412&s=amazon-devices&sr=1-1
 * A free-tier AWS account
