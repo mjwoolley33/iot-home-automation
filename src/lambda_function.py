@@ -1,15 +1,16 @@
-#Lambda handler will receive the following event JSON (use for test cases):
-#{
-#    "serialNumber": "GXXXXXXXXXXXXXXXXX",
-#    "batteryVoltage": "xxmV",
-#    "clickType": "SINGLE" | "DOUBLE" | "LONG"
-#}
+"""
+Lambda handler will receive the following event JSON (use for test cases):
+{
+    "serialNumber": "GXXXXXXXXXXXXXXXXX",
+    "batteryVoltage": "xxmV",
+    "clickType": "SINGLE" | "DOUBLE" | "LONG"
+}
 
-#Actions configured for the following:
-#SINGLE = Run house fan for 60 minutes
-#Double = Force nest temperature to 72
-#Long = Text message about empty garage fridge
-
+Actions configured for the following:
+SINGLE = Run house fan for 60 minutes
+Double = Force nest temperature to 72
+Long = Text message about empty garage fridge
+"""
 from __future__ import print_function
 
 import boto3
@@ -23,13 +24,13 @@ logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     
-    #Log the incoming JSON event   
+    # Log the incoming JSON event   
     logger.info('Received event: ' + json.dumps(event))
     
-    #Capture event type
+    # Extract click type
     event_type=event['clickType']
     
-    #Event is Long, send text message
+    # Click type is Long, send text message
     if event_type == 'LONG':
         
         # Initialize the SNS client
@@ -45,27 +46,27 @@ def lambda_handler(event, context):
         )
         logger.info('Message sent: ' + my_message)
         
-    #Event is single or double, run webhooks for Nest
+    # Click is single or double, run webhooks for Nest
     else:   
         
-        #Get the Maker API Key from SSM Parameter Store so we don't keep it in plain text
+        # Get the Maker API Key from Parameter Store so we don't keep it in plain text
         ssm = boto3.client('ssm')
         parameter = ssm.get_parameter(Name='/maker/apikey', WithDecryption=True)
         maker_key=parameter['Parameter']['Value']
         
-        #Construct and log the event type
+        # Construct and log the event type
         maker_event = '%s-%s' % (event['serialNumber'], event['clickType'])
         logger.info('Maker event: ' + maker_event)
         
-        #Construct and log the webhook URL
+        # Construct and log the webhook URL
         url = 'https://maker.ifttt.com/trigger/%s/with/key/%s' % (maker_event, maker_key)
         logger.info('URL: ' + url)
         
-        #Consume the webhook URL
+        # Consume the webhook URL
         foo = urllib2.urlopen(url)
         maker_response = foo.read()
         foo.close()
         
-        #Put something funny in the logs so you know it worked
+        # Put something funny in the logs so you know it worked
         logger.info('The first transport is away: ' + maker_response)
         return maker_response
