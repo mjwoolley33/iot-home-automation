@@ -5,7 +5,6 @@ Lambda handler will receive the following event JSON (use for test cases):
     "batteryVoltage": "xxmV",
     "clickType": "SINGLE" | "DOUBLE" | "LONG"
 }
-
 Actions configured for the following:
 SINGLE = Run house fan for 60 minutes
 Double = Force nest temperature to 72
@@ -15,7 +14,7 @@ Long = Text message about empty garage fridge
 import boto3
 import json
 import logging
-import urllib2
+import urllib3
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -62,10 +61,9 @@ def lambda_handler(event, context):
         logger.info('URL: ' + url)
         
         # Consume the webhook URL
-        foo = urllib2.urlopen(url)
-        maker_response = foo.read()
-        foo.close()
+        http = urllib3.PoolManager()
+        foo = http.request('POST', url)
+        maker_response = foo.data
         
         # Put something funny in the logs so you know it worked
-        logger.info('The first transport is away: ' + maker_response)
-        return maker_response
+        logger.info('The first transport is away: ' + maker_response.decode())
