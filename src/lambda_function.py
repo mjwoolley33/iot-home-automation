@@ -65,5 +65,5 @@ def lambda_handler(event, context):
         foo = http.request('POST', url)
         maker_response = foo.data
         
-        # Put something funny in the logs so you know it worked
-        logger.info('The first transport is away: ' + maker_response.decode())
+        # Log response from Maker
+        logger.info('Response from maker: ' + maker_response.decode())
